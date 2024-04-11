@@ -51,7 +51,7 @@ def filtro2(tabela):
 
 
 def filtro3(tabela):
-    dff = tabela.drop_duplicates('Query.Mass', keep=False)
+    dff = tabela.drop_duplicates('Query.Mass', keep=False).reset_index(drop=True)
 
     return dff
 
