@@ -57,7 +57,7 @@ def filtro3(tabela):
 
 
 # --- Page Config
-st.set_page_config(page_title='Horario dos Funcionários', layout='wide')
+st.set_page_config(page_title='Filtrar Metabolitos', layout='wide')
 
 hide_menu_style = """
         <style>
@@ -74,7 +74,7 @@ arquivo = st.file_uploader('Insira a tabela dos Metabólitos', accept_multiple_f
 if arquivo:
     to_filter = pd.read_excel(arquivo)
     to_filter['Query.Mass'] = to_filter['Query.Mass'].map(lambda x: '{0:.6f}'.format(x))
-    sheet_names = to_filter.sheet_names[0]
+    sh_names = to_filter.sheet_names
 
     df = filtro1(to_filter)
     df.sort_values(by=['ID'], inplace=True)
@@ -84,7 +84,7 @@ if arquivo:
 
     st.write(df3)
 
-    excel = make_excel(to_filter, df, df2, df3, sheet_names)
+    excel = make_excel(to_filter, df, df2, df3, sh_names)
 
     st.download_button(label=f'Download dos metabólitos filtrados',
                        data=excel,
