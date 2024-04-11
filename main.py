@@ -74,7 +74,7 @@ arquivo = st.file_uploader('Insira a tabela dos Metabólitos', accept_multiple_f
 if arquivo:
     to_filter = pd.read_excel(arquivo)
     to_filter['Query.Mass'] = to_filter['Query.Mass'].map(lambda x: '{0:.6f}'.format(x))
-    sh_names = to_filter.sheet_names
+    sh_names = pd.ExcelFile(arquivo).sheet_names[0]
 
     df = filtro1(to_filter)
     df.sort_values(by=['ID'], inplace=True)
