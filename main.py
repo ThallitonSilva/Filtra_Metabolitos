@@ -76,6 +76,8 @@ if arquivo:
     to_filter['Query.Mass'] = to_filter['Query.Mass'].map(lambda x: '{0:.6f}'.format(x))
 
     df = filtro1(to_filter)
+    df.sort_values(by=['ID'], inplace=True)
+    df.drop(columns=['ID'], inplace=True)
     df2 = filtro2(df)
     df3 = filtro3(df2)
 
