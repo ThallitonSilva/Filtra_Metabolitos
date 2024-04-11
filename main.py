@@ -6,11 +6,11 @@ pd.set_option("display.precision", 20)
 pd.set_option('display.float_format', '{:.20f}'.format)
 
 
-def make_excel(tb1, tb2, tb3, tb4):
+def make_excel(tb1, tb2, tb3, tb4, sh_name):
     buffer = io.BytesIO()
 
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        tb1.to_excel(writer, sheet_name=f'Raw_Data', index=False)
+        tb1.to_excel(writer, sheet_name=f'{sh_name}', index=False)
         tb2.to_excel(writer, sheet_name=f'Filter_QueryMass', index=False)
         tb3.to_excel(writer, sheet_name=f'Filter_MatchedCompound', index=False)
         tb4.to_excel(writer, sheet_name=f'Final_Result', index=False)
@@ -74,6 +74,7 @@ arquivo = st.file_uploader('Insira a tabela dos Metabólitos', accept_multiple_f
 if arquivo:
     to_filter = pd.read_excel(arquivo)
     to_filter['Query.Mass'] = to_filter['Query.Mass'].map(lambda x: '{0:.6f}'.format(x))
+    sheet_names = to_filter.sheet_names[0]
 
     df = filtro1(to_filter)
     df.sort_values(by=['ID'], inplace=True)
@@ -83,7 +84,7 @@ if arquivo:
 
     st.write(df3)
 
-    excel = make_excel(to_filter, df, df2, df3)
+    excel = make_excel(to_filter, df, df2, df3, sheet_names)
 
     st.download_button(label=f'Download dos metabólitos filtrados',
                        data=excel,
