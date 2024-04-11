@@ -32,10 +32,11 @@ arquivo = st.file_uploader('Insira a tabela dos Metabólitos', accept_multiple_f
 if arquivo:
     tabela = pd.read_excel(arquivo)
     tabela['Query.Mass'] = tabela['Query.Mass'].map(lambda x: '{0:.6f}'.format(x))
+    tabela.insert(0, 'ID', range(len(tabela)))
 
     gp = tabela.groupby('Query.Mass')
 
-    df = pd.DataFrame(columns=['Query.Mass', 'Matched.Compound', 'Matched.Form', 'Mass.Diff'])
+    df = pd.DataFrame(columns=['ID', 'Query.Mass', 'Matched.Compound', 'Matched.Form', 'Mass.Diff'])
 
     for nome, tab in gp:
         minimo = tab['Mass.Diff'].min()
@@ -44,6 +45,8 @@ if arquivo:
 
         df = pd.merge(df, df_temp, how='outer')
 
+    df = df.sort_values('ID').reset_index(drop=True)
+    df = df.drop(columns='ID')
     st.write(df)
 
     excel_gliri = make_excel(df)
