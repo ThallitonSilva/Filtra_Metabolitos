@@ -15,7 +15,7 @@ def make_excel(table):
 
 
 # --- Page Config
-st.set_page_config(page_title='Horario dos Funcionários', layout='wide')
+st.set_page_config(page_title='Filtrar Metabolitos', layout='wide')
 
 hide_menu_style = """
         <style>
