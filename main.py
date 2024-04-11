@@ -47,7 +47,7 @@ if arquivo:
 
     df = df.sort_values('ID').reset_index(drop=True)
     df = df.drop(columns='ID')
-    st.write(df)
+    st.dataframe(df)
 
     excel_gliri = make_excel(df)
 
